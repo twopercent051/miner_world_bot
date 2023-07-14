@@ -18,11 +18,15 @@ async def one_coin_price(coin_title: str) -> float:
     price = None
     for coin in coins:
         if coin["title"] == coin_title:
+            try:
+                sell_price = coin["sell_price"]
+            except KeyError:
+                sell_price = 0
             if coin["type"] == "manual":
-                price = coin["sell_price"]
+                price = sell_price
             else:
                 api_price = await get_coin_currency(coin=coin["title"])
-                price = round((api_price / rouble_course * (1 - 0.01 * coin["sell_price"])), 2)
+                price = round((api_price / rouble_course * (1 - 0.01 * sell_price)), 2)
     return price
 
 

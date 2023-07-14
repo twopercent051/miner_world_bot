@@ -25,13 +25,17 @@ async def statistic(callback: CallbackQuery):
         start_date = datetime.utcnow() + timedelta(hours=8) - timedelta(days=i)
         created_tickets = await TicketsDAO.get_many_by_date(start_date=start_date, status="created")
         finished_tickets = await TicketsDAO.get_many_by_date(start_date=start_date, status="finished")
+        created_tickets_count = created_tickets["count"] if created_tickets else 0
+        created_tickets_sum = created_tickets["sum"] if created_tickets else 0
+        finished_tickets_count = finished_tickets["count"] if finished_tickets else 0
+        finished_tickets_sum = finished_tickets["sum"] if finished_tickets else 0
         users = await UsersDAO.get_many_by_date(start_date=start_date)
         text_list = [
             f"<u>Данные за {i} дней:</u>",
             f'Зарегистрировались {len(users)} новых пользователей',
-            f'Получили {created_tickets["count"] + finished_tickets["count"]} заявок на продажу'
-            f' {created_tickets["sum"] + finished_tickets["sum"]} ₽',
-            f'Завершили {finished_tickets["count"]} заявок на продажу {finished_tickets["sum"]} ₽\n',
+            f'Получили {created_tickets_count + finished_tickets_count} заявок на продажу'
+            f' {created_tickets_sum + finished_tickets_sum} ₽',
+            f'Завершили {finished_tickets_count} заявок на продажу {finished_tickets_sum} ₽\n',
         ]
         text.extend(text_list)
     kb = AdminTicketsInline.home_kb()

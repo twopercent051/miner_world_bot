@@ -110,7 +110,7 @@ async def connect(message: Message, state: FSMContext):
     state_data = await state.get_data()
     user_id = state_data["user_id"]
     admin_text = "Сообщение отправлено"
-    admin_kb = await AdminTicketsInline.home_kb()
+    admin_kb = AdminTicketsInline.home_kb()
     user_kb = await AdminTicketsInline.connect_user_kb(user_id=ADMIN_GROUP)
     await bot.send_message(chat_id=user_id, text=message.html_text, reply_markup=user_kb)
     await message.answer(admin_text, reply_markup=admin_kb)

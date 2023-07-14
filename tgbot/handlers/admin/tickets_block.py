@@ -26,6 +26,7 @@ async def file_render(status: Literal["created", "all"]):
     await create_excel(ticket_list=tickets_list, status_file=status)
     file = FSInputFile(path=f'{os.getcwd()}/{status}_tickets.xlsx', filename=f"{status}_tickets.xlsx")
     await bot.send_document(chat_id=ADMIN_GROUP, document=file)
+    os.remove(f'{os.getcwd()}/{status}_tickets.xlsx')
 
 
 @router.callback_query(F.data == "tickets")

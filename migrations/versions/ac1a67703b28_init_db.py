@@ -1,8 +1,8 @@
 """init db
 
-Revision ID: 8b2cbdacab54
+Revision ID: ac1a67703b28
 Revises: 
-Create Date: 2023-07-10 23:43:05.885827
+Create Date: 2023-07-14 03:17:39.200220
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '8b2cbdacab54'
+revision = 'ac1a67703b28'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -21,19 +21,22 @@ def upgrade() -> None:
     op.create_table('tickets',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('user_id', sa.String(), nullable=False),
-    sa.Column('reg_dtime', sa.TIMESTAMP(), server_default=sa.text("TIMEZONE('utc', CURRENT_TIMESTAMP)"), nullable=False),
+    sa.Column('username', sa.String(), nullable=True),
+    sa.Column('reg_dtime', sa.DateTime(timezone=True), server_default=sa.text("TIMEZONE('Asia/Irkutsk', CURRENT_TIMESTAMP)"), nullable=False),
     sa.Column('operation', sa.String(), server_default='sell', nullable=False),
     sa.Column('coin', sa.String(), nullable=False),
     sa.Column('quantity', sa.Float(), nullable=False),
     sa.Column('price', sa.Float(), nullable=False),
+    sa.Column('total', sa.Float(), sa.Computed('quantity * price', ), nullable=True),
     sa.Column('status', sa.String(), server_default='created', nullable=False),
+    sa.Column('finish_dtime', sa.DateTime(timezone=True), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('users',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('user_id', sa.String(), nullable=False),
     sa.Column('username', sa.String(), server_default='', nullable=False),
-    sa.Column('reg_dtime', sa.TIMESTAMP(), server_default=sa.text("TIMEZONE('utc', CURRENT_TIMESTAMP)"), nullable=False),
+    sa.Column('reg_dtime', sa.TIMESTAMP(), server_default=sa.text("TIMEZONE('Asia/Irkutsk', CURRENT_TIMESTAMP)"), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
     # ### end Alembic commands ###

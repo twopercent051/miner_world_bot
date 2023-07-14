@@ -116,7 +116,7 @@ async def sell_crypto(callback: CallbackQuery, state: FSMContext):
         f"<b>Количество:</b> <i>{quantity}</i>",
         f"<b>Цена:</b> <i>{coin_price} ₽</i>",
         f"<b>Сумма:</b> <i>{quantity * coin_price} ₽</i>",
-        f"<b>Кошелек для перевода:</b> <i>{wallet} ₽</i>\n",
+        f"<b>Кошелек для перевода:</b> <i>{wallet}</i>\n",
         "Спасибо за заявку. В ближайшее время Вам напишет наш сотрудник для уточнения реквизитов"
     ]
     user_kb = UserSellCryptoInline.home_kb()

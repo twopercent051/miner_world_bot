@@ -47,11 +47,15 @@ async def get_course(callback: CallbackQuery):
     text = ["Установленные курсы валют:"]
     rouble_course = await get_usd_rub()
     for coin in coins:
+        try:
+            sell_price = coin["sell_price"]
+        except KeyError:
+            sell_price = 0
         if coin["type"] == "manual":
-            price = coin["sell_price"]
+            price = sell_price
         else:
             api_price = await get_coin_currency(coin=coin["title"])
-            price = round((api_price / rouble_course * (1 - 0.01 * coin["sell_price"])), 2)
+            price = round((api_price / rouble_course * (1 - 0.01 * sell_price)), 2)
         text.append(f"Цена продажи <b>{coin['title']}</b>: {price} ₽")
     kb = UserSellCryptoInline.home_kb()
     await callback.message.answer("\n".join(text), reply_markup=kb)

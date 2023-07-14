@@ -8,6 +8,7 @@ from tgbot.handlers.admin.tickets_block import router as admin_tickets_block
 from tgbot.handlers.admin.statistic_block import router as admin_statistic_block
 from tgbot.handlers.user.main_block import router as user_main_block
 from tgbot.handlers.user.sell_crypto_block import router as user_sell_crypto_block
+from tgbot.handlers.user.support_block import router as user_support_block
 from tgbot.misc.scheduler import scheduler_jobs
 from tgbot.models.redis_connector import RedisConnector as rds
 
@@ -25,7 +26,8 @@ admin_router = [
 
 user_router = [
     user_main_block,
-    user_sell_crypto_block
+    user_sell_crypto_block,
+    user_support_block
 ]
 
 

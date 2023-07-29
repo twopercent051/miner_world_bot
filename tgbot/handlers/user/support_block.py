@@ -9,9 +9,10 @@ from tgbot.misc.states import UserFSM
 router = Router()
 
 
+@router.callback_query(F.data.split(":")[0] == "connect")
 @router.callback_query(F.data == "support")
 async def support_block(callback: CallbackQuery, state: FSMContext):
-    text = "Напишите текст вопроса"
+    text = "Напишите текст вопроса" if callback.data == "support" else "Введите текст"
     kb = UserSellCryptoInline.home_kb()
     await state.set_state(UserFSM.support)
     await callback.message.answer(text, reply_markup=kb)
@@ -28,4 +29,3 @@ async def support_block(message: Message, state: FSMContext):
     await state.set_state(UserFSM.home)
     await message.answer(user_text, reply_markup=user_kb)
     await bot.send_message(chat_id=ADMIN_GROUP, text=admin_text, reply_markup=admin_kb)
-
